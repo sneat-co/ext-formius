@@ -1,0 +1,19 @@
+name: Publish contract
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    uses: sneat-co/cicd/.github/workflows/npm-publish.yml@main
+    with:
+      working-directory: frontend
+      install-command: pnpm install --no-frozen-lockfile --ignore-scripts
+      build-command: pnpm exec nx build ext-formius-contract
+      publish-command: pnpm exec nx release publish --projects=ext-formius-contract
+    secrets: inherit
